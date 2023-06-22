@@ -88,8 +88,8 @@ class DataModel {
   //ACC
   stdUSB* usb;
   ACC* acc;
-  PsecData psec;
-  PsecConfig conf;
+  PsecData data;
+  PsecConfig config;
   TempClassStore TCS;
 
   

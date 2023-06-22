@@ -30,7 +30,7 @@ class ACC_Receive: public Tool {
  private:
 
   std::string localconfigfile;
-  bool running_old;
+  bool running;
   std::string RunStartConfigType;
   std::string RunStartConfigName;
   std::string RunStartConfig;

@@ -123,8 +123,7 @@ public:
 	vector<unsigned int> errorcode;
 	unsigned int returncode = 0x00000000;
 
-	void setSMA_ON(bool PPS,bool Beamgate);
-	void setSMA_OFF(bool PPS, bool Beamgate);
+	void setSMA_Debug(unsigned int PPS, unsigned int Beamgate);
 	
 private:
 	/*------------------------------------------------------------------------------------*/

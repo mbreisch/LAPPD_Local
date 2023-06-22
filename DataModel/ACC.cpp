@@ -919,39 +919,17 @@ void ACC::resetACC()
 
 /*---------------------------------New commands--------------------------------------*/
 /*ID 29: SMA special input on*/
-void ACC::setSMA_ON(bool PPS,bool Beamgate)
-{	
-	unsigned int command;
-	if(PPS==true)
-	{
-		command = 0xFF900001;
-		usb->sendData(command); if(usbcheck==false){errorcode.push_back(0xAC29EE01);}
-	}
-	usleep(1000000);
-	
-	if(Beamgate==true)
-	{
-		command = 0xFF910001;
-		usb->sendData(command); if(usbcheck==false){errorcode.push_back(0xAC29EE02);}
-	}
-	usleep(1000000);
-}
-
-/*ID 30: SMA special input off*/
-void ACC::setSMA_OFF(bool PPS,bool Beamgate)
+void ACC::setSMA_Debug(unsigned int PPS, unsigned int Beamgate)
 {
-        unsigned int command;
-        if(PPS==true)
-        {
-                command = 0xFF900000;
-                usb->sendData(command); if(usbcheck==false){errorcode.push_back(0xAC30EE01);}
-        }
-        usleep(1000000);
+	unsigned int command;
 
-        if(Beamgate==true)
-        {
-                command = 0xFF910000;
-                usb->sendData(command); if(usbcheck==false){errorcode.push_back(0xAC30EE02);}
-        }
-        usleep(1000000);
+    command = 0xFF900000 | PPS;
+	usb->sendData(command); if(usbcheck==false){errorcode.push_back(0xAC29EE01);}
+
+	usleep(1000000);
+
+    command = 0xFF910000 | Beamgate;
+    usb->sendData(command); if(usbcheck==false){errorcode.push_back(0xAC29EE02);}
+    
+	usleep(1000000);
 }

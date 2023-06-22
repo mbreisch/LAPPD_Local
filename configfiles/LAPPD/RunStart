@@ -11,16 +11,15 @@ MetaLabel Metadata
 PPSLabel PPSFrames
 
 #Reset
-resetACC 1
-resetACDC 1
+resetACC 0
+resetACDC 0
 
 #SMA set
-SMA 0 #0 for RJ45 or 1 for SMA3 (pps) and SMA4 (Beamgate)
-
-#Trigger
+SMA_PPS 0 #0 for RJ45 or 1 for SMA3 (pps)
+SMA_Beamgate 0 #0 for RJ45 or 1 for SMA4 (Beamgate)
 
 ##Triggermode
-Triggermode 5 #...
+Triggermode 5 #fixed by< firmware v3.01
 
 ##ACC settings
 ACC_Sign 0 #normal(0) or inverted(1)
@@ -51,12 +50,6 @@ PSEC_Channel_Mask_1 0 #6 bit, each for a channel, from 0x00 to 0x3F
 PSEC_Channel_Mask_2 0 #6 bit, each for a channel, from 0x00 to 0x3F
 PSEC_Channel_Mask_3 0 #6 bit, each for a channel, from 0x00 to 0x3F
 PSEC_Channel_Mask_4 0 #6 bit, each for a channel, from 0x00 to 0x3F
-#PSEC_Channel_Mask_0 0x20 #6 bit, each for a channel, from 0x00 to 0x3F
-#PSEC_Channel_Mask_1 0x00 #6 bit, each for a channel, from 0x00 to 0x3F
-#PSEC_Channel_Mask_2 0x00 #6 bit, each for a channel, from 0x00 to 0x3F
-#PSEC_Channel_Mask_3 0x00 #6 bit, each for a channel, from 0x00 to 0x3F
-#PSEC_Channel_Mask_4 0x00 #6 bit, each for a channel, from 0x00 to 0x3F
-
 
 #Validation time
 Validation_Start 325250 #value from 0 to 819 in ns
@@ -65,18 +58,12 @@ Validation_Window 020000 #value from 0 to 819 in ns
 #Calibration mode
 Calibration_Mode 0 #on(1) or off(0)
 
-#Raw mode
-Raw_Mode 1 #returns a map with <int, vector<unsigned short>> | the int is the board index and the vector the data
-
 #Pedestal set value channel
 Pedestal_channel 2000 #pedestal value to be set 
 Pedestal_channel_mask 31 #5 bit representin psec chips
-#Pedestal_channel_mask 0x1F #5 bit representin psec chips
 
 #PPS
-
-PPS_Ratio 0
-#PPS_Ratio 0x000A
+PPS_Ratio 10
 PPS_Mux 1
 
-RunControl 0
+RunControl 1

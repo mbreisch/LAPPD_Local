@@ -16,7 +16,7 @@ endif
 ZMQLib= -L $(Dependencies)/zeromq-4.0.7/lib -lzmq 
 ZMQInclude= -I $(Dependencies)/zeromq-4.0.7/include/ 
 
-YOCTOLib = -L $(Dependencies)/YOCTO/Binaries/linux/armhf -lyocto -lm -lpthread
+YOCTOLib = -L $(Dependencies)/YOCTO/Binaries/linux/64bits -lyocto -lm -lpthread
 YOCTOInclude = -I $(Dependencies)/YOCTO/Sources
 
 
