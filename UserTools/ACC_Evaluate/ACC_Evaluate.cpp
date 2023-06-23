@@ -1,0 +1,64 @@
+#include "ACC_Evaluate.h"
+
+ACC_Evaluate::ACC_Evaluate():Tool(){}
+
+
+bool ACC_Evaluate::Initialise(std::string configfile, DataModel &data)
+{
+    if(configfile!="")  m_variables.Initialise(configfile);
+    //m_variables.Print();
+
+    m_data= &data;
+    m_log= m_data->Log;
+
+    if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;
+
+    seperator = "--------------------"; 
+
+	m_variables.Get("Port_0",Port_0);
+	m_variables.Get("Port_1",Port_1);
+	LAPPD_on_ACC = {Port_0,Port_1};
+
+    return true;
+}
+
+
+bool ACC_Evaluate::Execute()
+{
+    std::vector<unsigned short> ACC_IF = m_data->data.AccInfoFrame;
+
+    if(m_verbose>2){Print_ACC_IF(ACC_IF);}
+    Print_Buffer_Debug(ACC_IF);
+
+    return true;
+}
+
+
+bool ACC_Evaluate::Finalise()
+{
+
+  return true;
+}
+
+
+void ACC_Evaluate::Print_ACC_IF(std::vector<unsigned short> accif)
+{
+    printf("%s",seperator);
+    printf("Frame length was %i words\n",accif.size());
+    printf("Firmware version was %i from %i/%i\n",accif.at(vers),accif.at(year),accif.at(month));
+    printf("External clock bit is %i and PLL lock is %i with %i failures\n",exbit,pllbit,failcount);
+}
+
+
+void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
+{
+    unsigned short word14 = accif.at(14);
+
+    int bit0 = word14 & (1<<Port_0);
+    int bit1 = word14 & (1<<Port_1);
+
+    int buffer0 = accif.at(16+Port_0);
+    int buffer1 = accif.at(16+Port_1);
+
+    printf("%i - %i | %i - %i\n",bit0,buffer0,bit1,buffer1);
+}
