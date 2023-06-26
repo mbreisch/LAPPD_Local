@@ -1,6 +1,6 @@
 Dependencies=Dependencies
 
-CXXFLAGS=  -fPIC -Wpedantic -O3 -std=c++11 -Wno-attributes # -g -lSegFault -rdynamic -DDEBUG
+CXXFLAGS=  -fPIC -O3 -std=c++11 -Wno-attributes  -Wvla# -g -lSegFault -rdynamic -DDEBUG
 # -Wl,--no-as-needed
 
 ifeq ($(MAKECMDGOALS),debug)

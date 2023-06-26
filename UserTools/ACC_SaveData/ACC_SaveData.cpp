@@ -101,12 +101,13 @@ bool ACC_SaveData::Finalise()
 
 bool ACC_SaveData::SaveASCII()
 {
-    std::string rawfn = "./Results/Ascii" + getTime() + ".txt";
+    time = getTime();
+    std::string rawfn = "./Results/Ascii" + time + ".txt";
 	ofstream outfile(rawfn.c_str(), ios::app); 
 
 	std::vector<int> boardsReadyForRead = m_data->data.BoardIndex;
-    int NUM_SAMP = 256;
-    int NUM_CH = 30;
+    int NUMSAMP = 256;
+    int NUMCH = 30;
 
     //PARSING
     map<int, vector<unsigned short>> TransferMap;
@@ -125,9 +126,9 @@ bool ACC_SaveData::SaveASCII()
 	map<int, vector<unsigned short>> map_meta;
     channel_count = 0;
 
-    for(std::map<int, vector<unsigned short>>::iterator it=m_data->psec.TransferMap.begin(); it!=m_data->psec.TransferMap.end(); ++it)
+    for(std::map<int, vector<unsigned short>>::iterator it=TransferMap.begin(); it!=TransferMap.end(); ++it)
     {
-        if(it->second==16)
+        if(it->second.size()==16)
         {
             break;
         }
@@ -138,7 +139,7 @@ bool ACC_SaveData::SaveASCII()
     }
 
 	std::string delim = " ";
-	for(int enm=0; enm<NUM_SAMP; enm++)
+	for(int enm=0; enm<NUMSAMP; enm++)
 	{
 		outfile << std::dec << enm << delim;
 		for(int bi: boardsReadyForRead)
@@ -148,7 +149,7 @@ bool ACC_SaveData::SaveASCII()
 				cout << "Mapdata is empty" << endl;
                 return false;
 			}
-			for(int ch=0; ch<NUM_CH; ch++)
+			for(int ch=0; ch<NUMCH; ch++)
 			{
 				outfile << std::dec << (unsigned short)map_data[bi][ch][enm] << delim;
 			}
@@ -211,8 +212,8 @@ bool ACC_SaveData::SaveRAW()
 
 bool ACC_SaveData::SaveStore()
 {
-    m_data->psec.RawWaveform = m_data->psec.ReceiveData;
-    m_data->Stores["LAPPDStore"]->Set(StoreLabel,m_data->psec);
+    m_data->data.RawWaveform = m_data->data.ReceiveData;
+    m_data->Stores["LAPPDStore"]->Set(StoreLabel,m_data->data);
     m_data->Stores["LAPPDStore"]->Save(Path.c_str());
     m_data->Stores["LAPPDStore"]->Delete(); 
 
@@ -226,10 +227,10 @@ std::map<int,std::vector<unsigned short>> ACC_SaveData::GetParsedData(int boardI
 	if(buffer.size() == 0){return {};}
 
 	//Prepare the Metadata vector 
-	std::map<int,std::vector<unsigned int>> data;
-    int NUM_CH = 30;
-    int NUM_PSEC = 5;
-    int NUM_SAMP = 256;
+	std::map<int,std::vector<unsigned short>> data;
+    int NUMCH = 30;
+    int NUMPSEC = 5;
+    int NUMSAMP = 256;
 
 	//Indicator words for the start/end of the metadata
 	const unsigned short startword = 0xF005; 
@@ -252,7 +253,7 @@ std::map<int,std::vector<unsigned short>> ACC_SaveData::GetParsedData(int boardI
 		while(*bit != endword && *bit != endoffile)
 		{
 			InfoWord.push_back((unsigned short)*bit);
-			if(InfoWord.size()==NUM_SAMP)
+			if(InfoWord.size()==NUMSAMP)
 			{
 				data.insert(pair<int, vector<unsigned short>>(channel_count, InfoWord));
 				InfoWord.clear();
@@ -274,8 +275,8 @@ std::vector<unsigned short> ACC_SaveData::GetParsedMetaData(int boardID, std::ve
     //Prepare the Metadata vector and helpers
     std::vector<unsigned short> meta;
     int chip_count = 0;
-    int NUM_CH = 30;
-    int NUM_PSEC = 5;
+    int NUMCH = 30;
+    int NUMPSEC = 5;
 
     //Indicator words for the start/end of the metadata
     unsigned short endword = 0xFACE;
@@ -307,12 +308,12 @@ std::vector<unsigned short> ACC_SaveData::GetParsedMetaData(int boardID, std::ve
         chip_count++;
     }
     //Fill the psec trigger info map
-    for(int chip=0; chip<NUM_PSEC; chip++)
+    for(int chip=0; chip<NUMPSEC; chip++)
     {
-        for(int ch=0; ch<NUM_CH/NUM_PSEC; ch++)
+        for(int ch=0; ch<NUMCH/NUMPSEC; ch++)
         {
             //Find the trigger data at begin + last_metadata_start + 13_info_words + 1_end_word + 1
-            bit = buffer.begin() + start_indices[4] + 13 + 1 + 1 + ch + (chip*(NUM_CH/NUM_PSEC));
+            bit = buffer.begin() + start_indices[4] + 13 + 1 + 1 + ch + (chip*(NUMCH/NUMPSEC));
             PsecTriggerInfo[chip].push_back(*bit);
         }
     }
@@ -322,7 +323,7 @@ std::vector<unsigned short> ACC_SaveData::GetParsedMetaData(int boardID, std::ve
     //----------------------------------------------------------
     //Start the metadata parsing
     meta.push_back(boardID);
-    for(int CHIP=0; CHIP<NUM_PSEC; CHIP++)
+    for(int CHIP=0; CHIP<NUMPSEC; CHIP++)
     {
         meta.push_back((0xDCB0 | CHIP));
         for(int INFOWORD=0; INFOWORD<13; INFOWORD++)

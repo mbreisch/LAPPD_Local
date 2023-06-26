@@ -50,7 +50,7 @@ class ACC_SaveData: public Tool
         bool SaveRAW();
         bool SaveStore();
 
-        std::vector<unsigned short> GetParsedData(int boardID, std::vector<unsigned short> buffer);
+        map<int,std::vector<unsigned short>> GetParsedData(int boardID, std::vector<unsigned short> buffer);
         std::vector<unsigned short> GetParsedMetaData(int boardID, std::vector<unsigned short> buffer);
 
         std::string getTime()
