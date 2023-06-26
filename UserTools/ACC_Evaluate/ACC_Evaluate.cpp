@@ -44,9 +44,9 @@ bool ACC_Evaluate::Finalise()
 void ACC_Evaluate::Print_ACC_IF(std::vector<unsigned short> accif)
 {
     printf("%s",seperator);
-    printf("Frame length was %i words\n",accif.size());
-    printf("Firmware version was %i from %i/%i\n",accif.at(vers),accif.at(year),accif.at(month));
-    printf("External clock bit is %i and PLL lock is %i with %i failures\n",exbit,pllbit,failcount);
+    printf("Frame length was %li words\n",accif.size());
+    printf("Firmware version was %i from %i/%i\n",accif.at(accif.at(2)),accif.at(accif.at(3)),accif.at(accif.at(4)));
+    printf("External clock bit is %i and PLL lock is %i with %i failures\n",(0x1 & accif.at(12)),(0x2 & accif.at(12)),accif.at(10));
 }
 
 

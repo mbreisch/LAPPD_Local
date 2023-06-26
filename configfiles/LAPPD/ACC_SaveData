@@ -1,0 +1,19 @@
+#Overall ACC/ACDC config file
+#0 = no Save
+#1 = Save to ASCII
+#2 = Save to Bianrydata -> Store
+#3 = Save to Raw
+SaveMode 1
+
+#How many events should be recorded
+MaxNumberEvents 1000
+
+#General path variable
+Path ./Results/
+
+#For savemode 1 and 3 limits for files 
+EventsPerFile 1000
+
+#Store labels
+StoreLabel LAPPDData
+

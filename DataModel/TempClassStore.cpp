@@ -1,4 +1,7 @@
 #include <TempClassStore.h>
 
-TempClassStore::TempClassStore(){}
+TempClassStore::TempClassStore()
+{
+    EventCounter = 0;
+}
 

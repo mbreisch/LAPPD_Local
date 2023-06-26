@@ -18,7 +18,7 @@ bool ACC_SetupBoards::Initialise(std::string configfile, DataModel &data){
 	
 	system("mkdir -p Results");
 	
-	if(m_data->acc==nullptr) m_data->acc = new ACC();
+	//if(m_data->acc==nullptr) m_data->acc = new ACC();
 	
 	TimeoutResetCount = 300;
 	PPSWaitMultiplier = 10;
@@ -170,9 +170,7 @@ bool ACC_SetupBoards::Setup()
 	m_data->acc->setPPSBeamMultiplexer(m_data->config.PPSBeamMultiplexer);
 
     //SMA debug settigns
-    int SMA_Beamgate = 0;
-    m_variables.Get("SMA_Beamgate",SMA_Beamgate);
-    m_data->acc->setSMA_Debug(m_data->config.SMA,SMA_Beamgate);
+    m_data->acc->setSMA_Debug(m_data->config.SMA_PPS,m_data->config.SMA_Beamgate);
 	
 	int retval;
 	retval = m_data->acc->initializeForDataReadout(m_data->config.triggermode, m_data->config.ACDC_mask, m_data->config.Calibration_Mode);

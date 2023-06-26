@@ -2,7 +2,7 @@
 
 PsecConfig::PsecConfig()
 {
-    VersionNumber = 0x0004;
+    VersionNumber = 0x0005;
     LAPPD_ID = 0;
     receiveFlag = 1;
     SetDefaults();
@@ -10,7 +10,7 @@ PsecConfig::PsecConfig()
 
 PsecConfig::PsecConfig(unsigned int id)
 {
-    VersionNumber = 0x0004;
+    VersionNumber = 0x0005;
     LAPPD_ID = id;
     receiveFlag = 1;
     SetDefaults();
@@ -117,8 +117,11 @@ bool PsecConfig::Send(zmq::socket_t* sock)
     zmq::message_t msg29(sizeof ResetSwitchACDC);
     memcpy(msg29.data(), &ResetSwitchACDC, sizeof ResetSwitchACDC);	
 
-    zmq::message_t msg30(sizeof SMA);
-    memcpy(msg30.data(), &SMA, sizeof SMA);
+    zmq::message_t msg30(sizeof SMA_PPS);
+    memcpy(msg30.data(), &SMA_PPS, sizeof SMA_PPS);
+
+    zmq::message_t msg31(sizeof SMA_Beamgate);
+    memcpy(msg31.data(), &SMA_Beamgate, sizeof SMA_Beamgate);
 
     sock->send(msg0,ZMQ_SNDMORE);
     sock->send(msgID,ZMQ_SNDMORE);
@@ -152,7 +155,8 @@ bool PsecConfig::Send(zmq::socket_t* sock)
     sock->send(msg27,ZMQ_SNDMORE);
     sock->send(msg28,ZMQ_SNDMORE);
     sock->send(msg29,ZMQ_SNDMORE);
-    sock->send(msg30);
+    sock->send(msg30,ZMQ_SNDMORE);
+    sock->send(msg31);
 
     return true;
 }
@@ -255,7 +259,9 @@ bool PsecConfig::Receive(zmq::socket_t* sock)
 	
     //SMA
     sock->recv(&msg);
-    SMA=*(reinterpret_cast<int*>(msg.data()));
+    SMA_PPS=*(reinterpret_cast<int*>(msg.data()));
+    sock->recv(&msg);
+    SMA_Beamgate=*(reinterpret_cast<int*>(msg.data()));
 
     return true;
 }
@@ -276,7 +282,8 @@ bool PsecConfig::Initialise(Store* store)
     store->Get("RunControl",RunControl);
 
     //SMA 
-    store->Get("SMA",SMA);
+    store->Get("SMA_PPS",SMA_PPS);
+    store->Get("SMA_Beamgate",SMA_Beamgate);
  
     //trigger
     store->Get("triggermode",triggermode);
@@ -338,7 +345,8 @@ bool PsecConfig::SetDefaults()
     triggermode = 5;
 
     //SMA
-    SMA = 0;
+    SMA_PPS = 0;
+    SMA_Beamgate = 0;
 
     //triggersettings
     ACC_Sign = 0;
@@ -392,7 +400,8 @@ bool PsecConfig::Print(){
     printf("Receive flag: %i\n", receiveFlag);
     printf("ACDC boardmask: 0x%02x\n",ACDC_mask);
     printf("Calibration Mode: %i\n",Calibration_Mode);
-    printf("SMA: %i\n",SMA);
+    printf("SMA_PPS: %i\n",SMA_PPS);
+    printf("SMA_Beamgate: %i\n",SMA_Beamgate);
     std::cout << "------------------Trigger settings------------------" << std::endl;
     printf("Triggermode: %i\n",triggermode);
     printf("ACC trigger Sign: %i\n", ACC_Sign);

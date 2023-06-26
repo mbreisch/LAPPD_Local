@@ -39,8 +39,9 @@ class PsecConfig : public SerialisableObject{
   int ResetSwitchACDC;
 
   //SMA control
-  int SMA;
- 
+  int SMA_PPS;
+  int SMA_Beamgate;
+  
   //trigger
   int triggermode;
 
@@ -100,7 +101,8 @@ class PsecConfig : public SerialisableObject{
     ar & ResetSwitchACC;
     ar & ResetSwitchACDC;
     
-    ar & SMA;
+    ar & SMA_PPS;
+    ar & SMA_Beamgate;
 
     ar & triggermode;
     ar & ACC_Sign;

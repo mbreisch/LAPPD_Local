@@ -1,5 +1,5 @@
 #Verbosity
-verbose 3
+verbose 2
 
 # 3rd feb 2023 testing; local override
 RunStartConfigType local

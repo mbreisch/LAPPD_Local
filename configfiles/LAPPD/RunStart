@@ -1,25 +1,13 @@
-#Overall ACC/ACDC config file
-#0 = no Save
-#1 = Save to ASCII
-#2 = Save to Bianrydata -> Store
-#3 = Save to Raw
-Save 1
-path ./Results/LAPPD
-WaveformLabel LAPPDData
-AccLabel AccInfoFrame
-MetaLabel Metadata
-PPSLabel PPSFrames
-
 #Reset
-resetACC 0
-resetACDC 0
+ResetSwitchACC 0
+ResetSwitchACDC 0
 
 #SMA set
 SMA_PPS 0 #0 for RJ45 or 1 for SMA3 (pps)
 SMA_Beamgate 0 #0 for RJ45 or 1 for SMA4 (Beamgate)
 
 ##Triggermode
-Triggermode 5 #fixed by< firmware v3.01
+triggermode 5 #fixed by< firmware v3.01
 
 ##ACC settings
 ACC_Sign 0 #normal(0) or inverted(1)
@@ -63,7 +51,7 @@ Pedestal_channel 2000 #pedestal value to be set
 Pedestal_channel_mask 31 #5 bit representin psec chips
 
 #PPS
-PPS_Ratio 10
-PPS_Mux 1
+PPSRatio 10
+PPSBeamMultiplexer 1
 
 RunControl 1

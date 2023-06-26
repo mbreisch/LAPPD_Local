@@ -14,9 +14,8 @@ bool ACC_Receive::Initialise(std::string configfile, DataModel &data)
     
     // get Run[Start/End]Configs
     RunStartConfigType="local";
-    RunEndConfigType="local";
     m_variables.Get("RunStartConfigType",RunStartConfigType);
-    m_variables.Get("RunEndConfigType",RunEndConfigType);
+    m_variables.Get("RunStartConfigName",RunStartConfigName);
     
     if(!m_variables.Get("verbose",m_verbose)) m_verbose=1;
     if(m_verbose>2) m_variables.Print();
@@ -36,13 +35,10 @@ bool ACC_Receive::Execute()
         running = true;
     
         Store tmp;
-        if(m_data->running)
-        {
-            if(RunStartConfigType=="local"){ tmp.Initialise(RunStartConfigName);}
-        }
+        if(RunStartConfigType=="local"){ tmp.Initialise(RunStartConfigName);}
 
-        if(m_verbose>1){tmp.Print();}
-        std::cout<<" did it initiailiase? = "<<m_data->config.Initialise(&tmp)<<std::endl;
+        if(m_verbose>2){tmp.Print();}
+        std::cout<<" Did it Initiailiase? = "<<m_data->config.Initialise(&tmp)<<std::endl;
         m_data->config.Print();
         std::string choice_yn;
         while(true)
@@ -55,6 +51,7 @@ bool ACC_Receive::Execute()
             }else if(choice_yn=="n")
             {
                 m_variables.Set("StopLoop",1);
+                break;
             }
         }
     }

@@ -22,6 +22,7 @@ class TempClassStore{
 	map<int,int> Timeoutcounter;
 
     //For Fake data use
+    int EventCounter;
     map<int,vector<unsigned short>> ReadFileData;
     vector<unsigned short> ReadFileACC;
     vector<unsigned int> ReadFileError;
