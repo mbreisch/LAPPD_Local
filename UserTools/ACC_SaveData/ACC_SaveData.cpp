@@ -25,6 +25,7 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
     FileCounter = 0;
     channel_count = 0;
     starttime = getTime();
+    time = getTime();
 
     if(SaveMode==2)
 	{
@@ -50,18 +51,45 @@ bool ACC_SaveData::Execute()
         return true;
     }
 
+    if(m_data->data.readRetval!=0)
+    {   
+        if(m_data->data.readRetval==404)
+        {
+            std::cout << "Got timeout, will skip parsing" << std::endl;
+        }else
+        {
+            std::cout << "Got error, will skip parsing" << std::endl;
+        }
+        return true;
+    }else
+    {
+        std::cout << "Good data will be parsed..."<< std::endl;
+    }
+
     if(SaveMode==0)
     {
         m_data->TCS.EventCounter++;
     }else if(SaveMode==1)
     {
         ret = SaveASCII();
+        if(ret)
+        {
+            m_data->TCS.EventCounter++;
+        }
     }else if(SaveMode==2)
     {
         ret = SaveStore();
+        if(ret)
+        {
+            m_data->TCS.EventCounter++;
+        }
     }else if(SaveMode==3)
     {
         ret = SaveRAW();
+        if(ret)
+        {
+            m_data->TCS.EventCounter++;
+        }
     }else
     {
         ret = false;
@@ -101,7 +129,12 @@ bool ACC_SaveData::Finalise()
 
 bool ACC_SaveData::SaveASCII()
 {
-    time = getTime();
+    if(FileCounter>=EventsPerFile)
+    {
+        FileCounter=0;
+        time = getTime();
+    }
+
     std::string rawfn = "./Results/Ascii" + time + ".txt";
 	ofstream outfile(rawfn.c_str(), ios::app); 
 
@@ -165,6 +198,8 @@ bool ACC_SaveData::SaveASCII()
 	}
 	outfile.close();
 
+    FileCounter++;
+
     boardsReadyForRead.clear();
     map_data.clear();
     map_meta.clear();
@@ -204,7 +239,6 @@ bool ACC_SaveData::SaveRAW()
 	}
 
     FileCounter++;
-    m_data->TCS.EventCounter++;
 
     return true;
 }

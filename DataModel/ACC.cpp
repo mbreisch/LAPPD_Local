@@ -591,7 +591,11 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 				{
 					boardsReadyForRead.push_back(k);
 					readoutSize[k] = PPSFRAME;
-				}
+				}/*else
+                {
+                    unsigned int dumpIndex = 0x00 | (1<<LAPPD_on_ACC[0]) | (1<<LAPPD_on_ACC[1]);
+                    dumpData(dumpIndex);
+                }*/
 			}
 		}
 
