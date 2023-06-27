@@ -447,11 +447,11 @@ bool SlowControlMonitor::SetDefaultSettings(){
 	LIMIT_temperature_low = 50; //Default chosen 
 	LIMIT_temperature_high = 58; //Default chosen 
 	LIMIT_humidity_low = 15; //Default chosen 
-	LIMIT_humidity_high = 20; //Default chosen 
+	LIMIT_humidity_high = 25; //Default chosen 
 	LIMIT_Thermistor_temperature_low = 7000; //Default chosen 
 	LIMIT_Thermistor_temperature_high = 5800; //Default chosen 
 	LIMIT_saltbridge_low = 500000; //Default chosen 
-	LIMIT_saltbridge_high = 400000; //Default chosen 
+	LIMIT_saltbridge_high = 200000; //Default chosen 
 
 	//relay
 	SumRelays=false;

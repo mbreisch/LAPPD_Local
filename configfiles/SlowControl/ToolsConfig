@@ -1,0 +1,13 @@
+SC_Receive SC_Receive configfiles/SlowControl/SC_Receive
+SC_SetConfig SC_SetConfig configfiles/SlowControl/SC_Set
+SC_Poll_HV SC_Poll_HV configfiles/SlowControl/SC_Poll
+SC_Poll_LV SC_Poll_LV configfiles/SlowControl/SC_Poll
+SC_Poll_Photodiode SC_Poll_Photodiode configfiles/SlowControl/SC_Poll
+SC_Poll_Relays SC_Poll_Relays configfiles/SlowControl/SC_Poll
+SC_Poll_RHT SC_Poll_RHT configfiles/SlowControl/SC_Poll
+SC_Poll_Saltbridge SC_Poll_Saltbridge configfiles/SlowControl/SC_Poll
+SC_Poll_Thermistor SC_Poll_Thermistor configfiles/SlowControl/SC_Poll
+SC_Poll_Trigger SC_Poll_Trigger configfiles/SlowControl/SC_Poll
+SC_Poll_Timestamp SC_Poll_Timestamp configfiles/SlowControl/SC_Poll
+SC_LocalLog SC_LocalLog configfiles/SlowControl/SC_LocalLog
+SC_Stream SC_Stream configfiles/SlowControl/SC_Stream

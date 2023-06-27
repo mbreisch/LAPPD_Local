@@ -44,6 +44,8 @@ debug: all
 NoColour: all
 
 all: lib/libStore.so lib/libLogging.so lib/libDAQLogging.so lib/libDataModel.so include/Tool.h lib/libMyTools.so lib/libServiceDiscovery.so lib/libToolChain.so main RemoteControl  NodeDaemon
+		g++ SendConfig.cpp -o SendConfig -I include/ DataModel/SlowControlMonitor.cpp -I $(Dependencies)/zeromq-4.0.7/include/ -L $(Dependencies)/zeromq-4.0.7/lib/ -lzmq -L $(Dependencies)/boost_1_66_0/install/lib -lboost_date_time -lboost_serialization -lboost_iostreams -I $(Dependencies)/boost_1_66_0/install/include/
+
 
 main: src/main.cpp | lib/libMyTools.so lib/libStore.so lib/libLogging.so lib/libDAQLogging.so lib/libToolChain.so lib/libToolDAQChain.so lib/libDataModel.so lib/libServiceDiscovery.so
 	@echo -e "\e[38;5;226m\n*************** Making " $@ "****************\e[0m"

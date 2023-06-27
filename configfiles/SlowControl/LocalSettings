@@ -1,0 +1,28 @@
+#HV settings
+HV_state_set 1
+HV_volts 0
+
+#LV settings
+LV_state_set 1
+
+#Emergency limits 
+LIMIT_temperature_low 50
+LIMIT_temperature_high 58
+LIMIT_humidity_low 15
+LIMIT_humidity_high 25
+
+LIMIT_Thermistor_temperature_low 7000
+LIMIT_Thermistor_temperature_high 5800
+
+LIMIT_saltbridge_low 500000
+LIMIT_saltbridge_high 100000
+
+#Trigger
+Trig0_threshold 1.223
+Trig1_threshold 1.23
+TrigVref 2.981
+
+#Relays
+relayCh1 1
+relayCh2 1
+relayCh3 1

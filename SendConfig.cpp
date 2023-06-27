@@ -5,7 +5,7 @@
 #include <sstream>
 #include <vector>
 
-#include <zmq.hpp>
+#include "zmq.hpp"
 #include <SlowControlMonitor.h>
 
 using namespace std;

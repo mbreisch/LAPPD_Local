@@ -1,0 +1,4 @@
+verbose 1
+PRINTFLAG 0
+CheckDelay 50
+MaxKillCount 10
