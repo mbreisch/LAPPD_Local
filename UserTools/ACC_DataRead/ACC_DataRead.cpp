@@ -52,7 +52,7 @@ bool ACC_DataRead::Execute()
         {
             if(m_data->data.readRetval != 404)
             {
-                printf("not 404 but %i\n",m_data->data.readRetval);
+                if(m_verbose>2){printf("not 404 but %i\n",m_data->data.readRetval);}
                 m_data->TCS.Timeoutcounter.at(LAPPD_ID) = 0;
                 m_data->data.FailedReadCounter = m_data->data.FailedReadCounter + 1;
                 m_data->data.errorcodes.push_back(0xAD02EE01);
@@ -61,7 +61,7 @@ bool ACC_DataRead::Execute()
                 m_data->acc->emptyUsbLine();
             }else
             {
-                printf("404\n");
+                if(m_verbose>2){printf("404\n");}
                 /*
                 vector<unsigned short> TMP_ACC = m_data->acc->returnACCIF();
                 if(PreviousBuffer[Port_0]==0 && PreviousBuffer[Port_1]==0)
@@ -88,7 +88,7 @@ bool ACC_DataRead::Execute()
             m_data->data.ReceiveData.clear();
             m_data->acc->clearData();
         }else{
-            printf("good data\n");
+            if(m_verbose>2){printf("good data\n");}
             m_data->TCS.Timeoutcounter.at(LAPPD_ID) = 0;
             m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
             m_data->data.ReceiveData = m_data->acc->returnRaw();
@@ -97,8 +97,8 @@ bool ACC_DataRead::Execute()
         }                
     }catch(std::exception& e)
     {
-            std::cerr<<"ACC_DataRead::Execute caught exception on read handling "<<e.what()<<std::endl;
-            return false;
+        std::cerr<<"ACC_DataRead::Execute caught exception on read handling "<<e.what()<<std::endl;
+        return false;
     }      
                           
     //Get Timestamp
@@ -117,8 +117,8 @@ bool ACC_DataRead::Execute()
         tmpERR.clear();
     }catch(std::exception& e)
     {
-            std::cerr<<"ACC_DataRead::Execute caught exception errorcode grab "<<e.what()<<std::endl;
-            return false;
+        std::cerr<<"ACC_DataRead::Execute caught exception errorcode grab "<<e.what()<<std::endl;
+        return false;
     }
 
     return true;

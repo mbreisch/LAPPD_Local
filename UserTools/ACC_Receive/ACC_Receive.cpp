@@ -31,14 +31,13 @@ bool ACC_Receive::Execute()
     // on start or end of run, update ACC configuration
     if(!running)
     {
-        printf("ACC_receive initialise");
         running = true;
     
         Store tmp;
         if(RunStartConfigType=="local"){ tmp.Initialise(RunStartConfigName);}
 
         if(m_verbose>2){tmp.Print();}
-        std::cout<<" Did it Initiailiase? = "<<m_data->config.Initialise(&tmp)<<std::endl;
+        std::cout<<" Did it Initiailiase? = "<<m_data->config.Initialise(&tmp)<<std::endl<<std::endl;
         m_data->config.Print();
         std::string choice_yn;
         while(true)

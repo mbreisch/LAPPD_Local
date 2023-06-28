@@ -121,6 +121,7 @@ int getLappdID()
 
 void PrintSettings(std::map<std::string,std::string> Settings)
 {
+    std::cout<<std::endl;
     std::cout<<"------------------------------"<<std::endl;
     std::cout<<"These settings will be sent"<<std::endl;
     std::cout<<"LAPPD ID: "<<getLappdID()<<std::endl;
@@ -137,7 +138,7 @@ void PrintSettings(std::map<std::string,std::string> Settings)
     std::cout<<"LIMIT_humidity_low: "<<Settings["LIMIT_humidity_low"]<<std::endl;
     std::cout<<"LIMIT_humidity_high: "<<Settings["LIMIT_humidity_high"]<<std::endl;
     std::cout<<endl;
-    std::cout<<"LIMIT_Thermistor_temperature_low): "<<Settings["LIMIT_Thermistor_temperature_low"]<<std::endl;
+    std::cout<<"LIMIT_Thermistor_temperature_low: "<<Settings["LIMIT_Thermistor_temperature_low"]<<std::endl;
     std::cout<<"LIMIT_Thermistor_temperature_high: "<<Settings["LIMIT_Thermistor_temperature_high"]<<std::endl;
     std::cout<<endl;
     std::cout<<"LIMIT_saltbridge_low: "<<Settings["LIMIT_saltbridge_low"]<<std::endl;
@@ -220,17 +221,18 @@ int SetSettings(std::map<std::string,std::string> Settings)
     }
 
     PrintSettings(Settings);
-    std::cout<<"Do you want to send the above settings? ";
+    std::cout<<"Do you want to send the above settings? (y/n) ";
     bool send=false;
-    std::cin>>send;
+    std::string yn;
+    std::cin>>yn;
 
-    if(!send)
-    {
-        return 0;
-    }else
+    if(yn=="y")
     {
         data.Send_Config(&sock);  
         return 1;
+    }else
+    {
+        return 0;
     }
 }
 

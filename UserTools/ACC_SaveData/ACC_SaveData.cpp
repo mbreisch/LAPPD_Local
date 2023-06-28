@@ -23,6 +23,7 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
     if(!m_variables.Get("StoreLabel",StoreLabel)) StoreLabel="LAPPD_INV_";
 
     FileCounter = 0;
+    print_counter = 0;
     channel_count = 0;
     starttime = getTime();
     time = getTime();
@@ -55,15 +56,15 @@ bool ACC_SaveData::Execute()
     {   
         if(m_data->data.readRetval==404)
         {
-            std::cout << "Got timeout, will skip parsing" << std::endl;
+            if(m_verbose>2){std::cout << "Got timeout, will skip parsing" << std::endl;}
         }else
         {
-            std::cout << "Got error, will skip parsing" << std::endl;
+            if(m_verbose>2){std::cout << "Got error, will skip parsing" << std::endl;}
         }
         return true;
     }else
     {
-        std::cout << "Good data will be parsed..."<< std::endl;
+        if(m_verbose>2){std::cout << "Good data will be parsed..."<< std::endl;}
     }
 
     if(SaveMode==0)
@@ -133,6 +134,8 @@ bool ACC_SaveData::SaveASCII()
     {
         FileCounter=0;
         time = getTime();
+        std::cout << "Got " << print_counter*EventsPerFile << " events (only data) saved..." << std::endl;
+        print_counter++;
     }
 
     std::string rawfn = "./Results/Ascii" + time + ".txt";
@@ -212,6 +215,8 @@ bool ACC_SaveData::SaveRAW()
     {
         FileCounter=0;
         time = getTime();
+        std::cout << "Got " << print_counter*EventsPerFile << " events (pps and data) saved..." << std::endl;
+        print_counter++;
     }
 
     map<int, vector<unsigned short>> TransferMap;
@@ -246,10 +251,19 @@ bool ACC_SaveData::SaveRAW()
 
 bool ACC_SaveData::SaveStore()
 {
+    if(FileCounter>=EventsPerFile)
+    {
+        FileCounter=0;
+        std::cout << "Got " << print_counter*EventsPerFile << " events (pps and data) saved..." << std::endl;
+        print_counter++;
+    }
+
     m_data->data.RawWaveform = m_data->data.ReceiveData;
     m_data->Stores["LAPPDStore"]->Set(StoreLabel,m_data->data);
     m_data->Stores["LAPPDStore"]->Save(Path.c_str());
     m_data->Stores["LAPPDStore"]->Delete(); 
+
+    FileCounter++;
 
     return true;
 }

@@ -45,6 +45,7 @@ class ACC_SaveData: public Tool
         int EventsPerFile;
         int MaxNumberEvents;
         int channel_count;
+        int print_counter;
 
         bool SaveASCII();
         bool SaveRAW();
