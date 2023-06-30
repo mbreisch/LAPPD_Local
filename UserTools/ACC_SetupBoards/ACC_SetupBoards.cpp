@@ -67,10 +67,6 @@ bool ACC_SetupBoards::Execute()
 	{
 		if(m_data->config.RunControl==0 || m_data->config.RunControl==1)
 		{
-            for(std::map<int, queue<PsecData>>::iterator ib=m_data->TCS.Buffer.begin(); ib!=m_data->TCS.Buffer.end(); ++ib)
-	        {
-                queue<PsecData>().swap(m_data->TCS.Buffer.at(ib->first));
-	        }
 			m_data->data.errorcodes.clear();
 			m_data->data.ReceiveData.clear();
 			m_data->data.BoardIndex.clear();
@@ -103,7 +99,7 @@ bool ACC_SetupBoards::Setup()
 	
 	//Set timeout value
 	int timeout;
-	m_variables.Get("Timeout",timeout);
+	m_variables.Get("timeout",timeout);
 	m_data->acc->setTimeoutInMs(timeout);
 	
 	//polarity

@@ -40,16 +40,22 @@ class ACC_SaveData: public Tool
         std::string StoreLabel;
         std::string time;
         std::string starttime;
+        std::string rawfn;
 
         int FileCounter;
         int EventsPerFile;
         int MaxNumberEvents;
         int channel_count;
         int print_counter;
+        int PrintLinesMax;
+
+        ofstream outfile;
+        ofstream errfile;
 
         bool SaveASCII();
         bool SaveRAW();
         bool SaveStore();
+        void PrintErrors();
 
         map<int,std::vector<unsigned short>> GetParsedData(int boardID, std::vector<unsigned short> buffer);
         std::vector<unsigned short> GetParsedMetaData(int boardID, std::vector<unsigned short> buffer);

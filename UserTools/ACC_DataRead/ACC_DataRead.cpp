@@ -111,7 +111,7 @@ bool ACC_DataRead::Execute()
         vector<unsigned int> tmpERR = m_data->acc->returnErrors();
         if(tmpERR.size()!=0)
         {
-                m_data->data.errorcodes.insert(std::end(m_data->data.errorcodes), std::begin(tmpERR), std::end(tmpERR));
+            m_data->data.errorcodes.insert(std::end(m_data->data.errorcodes), std::begin(tmpERR), std::end(tmpERR));
         }
         m_data->acc->clearErrors();
         tmpERR.clear();

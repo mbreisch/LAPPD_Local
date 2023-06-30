@@ -1,7 +1,7 @@
 #Verbosity
 verbose 2
 
-# 3rd feb 2023 testing; local override
+#local override
 RunStartConfigType local
 RunStartConfigName configfiles/LAPPD/RunStart
 

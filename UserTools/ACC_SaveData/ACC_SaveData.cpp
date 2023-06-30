@@ -16,6 +16,7 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
 
     if(!m_variables.Get("MaxNumberEvents",MaxNumberEvents)) MaxNumberEvents=0;
     if(!m_variables.Get("EventsPerFile",EventsPerFile)) EventsPerFile=1;
+    if(!m_variables.Get("PrintLinesMax",PrintLinesMax)) PrintLinesMax=10000;
 
     if(!m_variables.Get("Path",Path)) Path="./Results";
     Path+= getTime();
@@ -26,9 +27,12 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
     print_counter = 0;
     channel_count = 0;
     starttime = getTime();
-    time = getTime();
 
-    if(SaveMode==2)
+    if(SaveMode==1)
+    {
+        rawfn = "./Results/Ascii" + starttime + ".txt";
+        outfile.open(rawfn.c_str(), ios::app);
+    }else if(SaveMode==2)
 	{
 		// Make the ANNIEEvent Store if it doesn't exist
 		int recoeventexists = m_data->Stores.count("LAPPDStore");
@@ -37,6 +41,8 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
 			m_data->Stores["LAPPDStore"] = new BoostStore(false,2);
 		}
 	}
+
+    errfile.open("./Errorlog.txt",ios::app);
 
     return true;
 }
@@ -102,18 +108,30 @@ bool ACC_SaveData::Execute()
 	m_data->data.ReceiveData.clear();
     m_data->data.RawWaveform.clear();
 
+    PrintErrors();
+
+    m_data->data.errorcodes.clear();
+
     return ret;
 }
 
 
 bool ACC_SaveData::Finalise()
-{
-	if(SaveMode==2)
+{   
+    if(SaveMode==1)
+    {
+        if(outfile.is_open())
+        {
+            outfile.close();
+        }
+    }else if(SaveMode==2)
 	{
 		m_data->Stores["LAPPDStore"]->Close();
 		delete m_data->Stores["LAPPDStore"];
 		m_data->Stores["LAPPDStore"] = 0;
     }
+
+    errfile.close();
 
     std::tm tm = {};
     std::stringstream ss(starttime);
@@ -128,18 +146,43 @@ bool ACC_SaveData::Finalise()
 }
 
 
+void ACC_SaveData::PrintErrors()
+{
+    bool printer = false;
+
+	int numLines = 0;
+	std::string line;
+	std::ifstream file("./Errorlog.txt");    
+	while(getline(file, line)){numLines++;}
+	file.close();
+
+    if(numLines>PrintLinesMax){return;}
+
+    for(unsigned int err: m_data->data.errorcodes)
+    {
+        errfile << "0x" << std::hex << err << std::dec << " | ";
+        printer = true;
+    }
+    if(printer)
+    {
+        errfile << std::endl;
+    }
+}
+
+
 bool ACC_SaveData::SaveASCII()
 {
     if(FileCounter>=EventsPerFile)
     {
-        FileCounter=0;
-        time = getTime();
+        outfile.close();
         std::cout << "Got " << print_counter*EventsPerFile << " events (only data) saved..." << std::endl;
         print_counter++;
-    }
 
-    std::string rawfn = "./Results/Ascii" + time + ".txt";
-	ofstream outfile(rawfn.c_str(), ios::app); 
+        FileCounter=0;
+        time = getTime();
+        rawfn = "./Results/Ascii" + time + ".txt";
+	    outfile.open(rawfn.c_str(), ios::app); 
+    }
 
 	std::vector<int> boardsReadyForRead = m_data->data.BoardIndex;
     int NUMSAMP = 256;
@@ -199,7 +242,6 @@ bool ACC_SaveData::SaveASCII()
 		}
 		outfile << endl;
 	}
-	outfile.close();
 
     FileCounter++;
 

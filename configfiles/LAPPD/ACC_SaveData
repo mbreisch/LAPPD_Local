@@ -13,6 +13,7 @@ Path ./Results/
 
 #For savemode 1 and 3 limits for files 
 EventsPerFile 1000
+PrintLinesMax 50000
 
 #Store labels
 StoreLabel LAPPDData

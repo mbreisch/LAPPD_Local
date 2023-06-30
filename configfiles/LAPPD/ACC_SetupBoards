@@ -3,4 +3,7 @@ verbose 1
 
 #Local multiplier for the wait time once data taking stops
 #Wait is multiplied by the set PPS value
-PPSWaitMultiplier 4
+PPSWaitMultiplier 3.5
+
+#Timeout value for fluent read loop
+timeout 500 #ms
