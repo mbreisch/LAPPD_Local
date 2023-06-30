@@ -9,6 +9,7 @@
 #include <chrono>
 #include <unistd.h>
 #include <iomanip>
+#include <filesystem>
 
 #include "Tool.h"
 
@@ -56,6 +57,7 @@ class ACC_SaveData: public Tool
         bool SaveRAW();
         bool SaveStore();
         void PrintErrors();
+        void CreateFolder();
 
         map<int,std::vector<unsigned short>> GetParsedData(int boardID, std::vector<unsigned short> buffer);
         std::vector<unsigned short> GetParsedMetaData(int boardID, std::vector<unsigned short> buffer);

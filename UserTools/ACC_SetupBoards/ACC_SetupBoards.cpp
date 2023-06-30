@@ -16,8 +16,6 @@ bool ACC_SetupBoards::Initialise(std::string configfile, DataModel &data){
 	
 	//m_variables.Print();
 	
-	system("mkdir -p Results");
-	
 	if(m_data->acc==nullptr) m_data->acc = new ACC();
 	
 	TimeoutResetCount = 300;

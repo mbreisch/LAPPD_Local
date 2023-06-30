@@ -74,8 +74,6 @@ public:
 	void setPPSRatio(unsigned int in){PPSRatio = in;} 
 	void setPPSBeamMultiplexer(int in){PPSBeamMultiplexer = in;}
     void setTimeoutInMs(int in){timeoutvalue = in;}
-    void setLAPPD1(vector<int> in){LAPPD1 = in;} 
-    void setLAPPD2(vector<int> in){LAPPD2 = in;}   
 	
 	/*------------------------------------------------------------------------------------*/
 	/*-------------------------Local set functions for board setup------------------------*/
@@ -144,8 +142,6 @@ private:
 	unsigned int validation_start; //var: validation window for some triggermodes
 	unsigned int validation_window; //var: validation window for some triggermodes
 	unsigned int PPSRatio;
-    vector<int> LAPPD1; //Index pair for LAPPD1 - references to the ACC port
-    vector<int> LAPPD2; //Index pair for LAPPD2 - references to the ACC port
 	vector<unsigned short> lastAccBuffer; //most recently received ACC buffer
 	vector<int> alignedAcdcIndices; //number relative to ACC index (RJ45 port) corresponds to the connected ACDC boards
 	vector<unsigned int> SELF_psec_channel_mask; //var: PSEC channels active for self trigger

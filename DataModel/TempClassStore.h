@@ -17,6 +17,8 @@ class TempClassStore{
 
     TempClassStore();
 
+    std::string Path;
+
     //New maps to allow for MuliLAPPDs <LAPPD_ID, value>
     map<int,queue<PsecData>> Buffer;
 	map<int,int> Timeoutcounter;

@@ -18,8 +18,7 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
     if(!m_variables.Get("EventsPerFile",EventsPerFile)) EventsPerFile=1;
     if(!m_variables.Get("PrintLinesMax",PrintLinesMax)) PrintLinesMax=10000;
 
-    if(!m_variables.Get("Path",Path)) Path="./Results";
-    Path+= getTime();
+    Path="./Results";
 
     if(!m_variables.Get("StoreLabel",StoreLabel)) StoreLabel="LAPPD_INV_";
 
@@ -28,9 +27,11 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
     channel_count = 0;
     starttime = getTime();
 
+    CreateFolder();
+
     if(SaveMode==1)
     {
-        rawfn = "./Results/Ascii" + starttime + ".txt";
+        rawfn = Path+"Ascii_p" + to_string(print_counter) + ".txt";
         outfile.open(rawfn.c_str(), ios::app);
     }else if(SaveMode==2)
 	{
@@ -42,7 +43,7 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
 		}
 	}
 
-    errfile.open("./Errorlog.txt",ios::app);
+    errfile.open(Path+"Errorlog.txt",ios::app);
 
     return true;
 }
@@ -152,7 +153,7 @@ void ACC_SaveData::PrintErrors()
 
 	int numLines = 0;
 	std::string line;
-	std::ifstream file("./Errorlog.txt");    
+	std::ifstream file(Path+"Errorlog.txt");    
 	while(getline(file, line)){numLines++;}
 	file.close();
 
@@ -179,8 +180,7 @@ bool ACC_SaveData::SaveASCII()
         print_counter++;
 
         FileCounter=0;
-        time = getTime();
-        rawfn = "./Results/Ascii" + time + ".txt";
+        rawfn = Path+"Ascii_p" + to_string(print_counter) + ".txt";
 	    outfile.open(rawfn.c_str(), ios::app); 
     }
 
@@ -256,7 +256,6 @@ bool ACC_SaveData::SaveRAW()
     if(FileCounter>=EventsPerFile)
     {
         FileCounter=0;
-        time = getTime();
         std::cout << "Got " << print_counter*EventsPerFile << " events (pps and data) saved..." << std::endl;
         print_counter++;
     }
@@ -275,7 +274,7 @@ bool ACC_SaveData::SaveRAW()
 	//Direct raw save of data
 	for(std::map<int, vector<unsigned short>>::iterator it=TransferMap.begin(); it!=TransferMap.end(); ++it)
 	{
-		string rawfn = "./Results/Raw_b" + to_string(it->first) + "_" + time + ".txt";
+		string rawfn = Path+"Raw_b" + to_string(it->first) + "_p" + to_string(print_counter) + ".txt";
 		ofstream outfile(rawfn.c_str(), ios::app); 
 		for(unsigned short k: it->second)
 		{
@@ -302,7 +301,7 @@ bool ACC_SaveData::SaveStore()
 
     m_data->data.RawWaveform = m_data->data.ReceiveData;
     m_data->Stores["LAPPDStore"]->Set(StoreLabel,m_data->data);
-    m_data->Stores["LAPPDStore"]->Save(Path.c_str());
+    m_data->Stores["LAPPDStore"]->Save((Path+"LAPPD_Store"+"_p"+to_string(print_counter)).c_str());
     m_data->Stores["LAPPDStore"]->Delete(); 
 
     FileCounter++;
@@ -429,4 +428,30 @@ std::vector<unsigned short> ACC_SaveData::GetParsedMetaData(int boardID, std::ve
     meta.push_back(0xeeee);
 
     return meta;
+}
+
+
+void ACC_SaveData::CreateFolder()
+{
+    namespace fs = std::filesystem;
+    std::cout<<"Creating Results"<<std::endl;
+    int ret = system("mkdir -p Results");
+    int subindex = 0;
+    while(true)
+    {
+        std::string subfolder = "R"+std::to_string(subindex)+"_"+starttime;
+        std::string folderPath = Path+"/"+subfolder+"/";
+        if(fs::exists(folderPath) && fs::is_directory(folderPath)) 
+        {
+            subindex++;
+        }else
+        {
+            std::string tmpcmd = "mkdir -p "+ folderPath;
+            system(tmpcmd.c_str());
+            Path = folderPath;
+            std::cout<<"Creating "<<folderPath<<std::endl;
+            break;
+        }
+    }
+    
 }
