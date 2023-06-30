@@ -10,4 +10,4 @@ SC_Poll_Thermistor SC_Poll_Thermistor configfiles/SlowControl/SC_Poll
 SC_Poll_Trigger SC_Poll_Trigger configfiles/SlowControl/SC_Poll
 SC_Poll_Timestamp SC_Poll_Timestamp configfiles/SlowControl/SC_Poll
 SC_LocalLog SC_LocalLog configfiles/SlowControl/SC_LocalLog
-SC_Stream SC_Stream configfiles/SlowControl/SC_Stream
+SC_PrintValues SC_PrintValues configfiles/SlowControl/SC_PrintValues

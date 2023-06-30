@@ -23,4 +23,4 @@ export LD_LIBRARY_PATH=`pwd`/lib:${Dependencies}/zeromq-4.0.7/lib:${Dependencies
 
 export SEGFAULT_SIGNALS="all"
 
-source ~/.profile
+#source ~/.profile

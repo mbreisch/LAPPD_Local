@@ -12,9 +12,9 @@
 
 using namespace std;
 
-class SlowControlMonitor : public SerialisableObject{
+class SlowControlMonitor{
 
- friend class boost::serialization::access;
+    friend class boost::serialization::access;
 
  public:
 

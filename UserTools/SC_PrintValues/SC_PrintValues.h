@@ -1,5 +1,5 @@
-#ifndef SC_Stream_H
-#define SC_Stream_H
+#ifndef SC_PrintValues_H
+#define SC_PrintValues_H
 
 #include <string>
 #include <iostream>
@@ -17,12 +17,12 @@ using namespace std;
 * $Date: 2019/05/28 10:44:00 $
 * Contact: b.richards@qmul.ac.uk
 */
-class SC_Stream: public Tool {
+class SC_PrintValues: public Tool {
 
 
  public:
 
-  SC_Stream(); ///< Simple constructor
+  SC_PrintValues(); ///< Simple constructor
   bool Initialise(std::string configfile,DataModel &data); ///< Initialise Function for setting up Tool resorces. @param configfile The path and name of the dynamic configuration file to read in. @param data A reference to the transient data class used to pass information between Tools.
   bool Execute(); ///< Executre function used to perform Tool perpose. 
   bool Finalise(); ///< Finalise funciton used to clean up resorces.
@@ -34,6 +34,8 @@ class SC_Stream: public Tool {
   int m_port;
   int m_verbose;
   long time_sec=0;
+
+  std::string cnormal = "\033[0m";
 
   void PrintMonitoring();
 

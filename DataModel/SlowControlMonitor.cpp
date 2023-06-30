@@ -35,10 +35,6 @@ bool SlowControlMonitor::Send_Mon(zmq::socket_t* sock){
 	zmq::message_t msgV(sizeof VersionNumber);
 	std::memcpy(msgV.data(), &VersionNumber, sizeof VersionNumber);	
 
-	//LAPPD_ID
-	//zmq::message_t msgID(sizeof LAPPD_ID);
-	//std::memcpy(msgID.data(), &LAPPD_ID, sizeof LAPPD_ID);	
-
 	//Timestamp
 	zmq::message_t msgTime(timeSinceEpochMilliseconds.length()+1);
 	snprintf((char*) msgTime.data(), timeSinceEpochMilliseconds.length()+1, "%s", timeSinceEpochMilliseconds.c_str());	
@@ -107,37 +103,39 @@ bool SlowControlMonitor::Send_Mon(zmq::socket_t* sock){
 	zmq::message_t msgE(sizeof(unsigned int) * S_errorcodes);
 	std::memcpy(msgE.data(), errorcodes.data(), sizeof(unsigned int) * S_errorcodes);
 
-	sock->send(msg0,ZMQ_SNDMORE);
-	sock->send(msgV,ZMQ_SNDMORE);
-	//sock->send(msgID,ZMQ_SNDMORE);
-	sock->send(msgTime,ZMQ_SNDMORE);
-	sock->send(msgHum,ZMQ_SNDMORE);
-	sock->send(msgTemp1,ZMQ_SNDMORE);
-	sock->send(msgTemp2,ZMQ_SNDMORE);
-	sock->send(msgHVstate,ZMQ_SNDMORE);
-	sock->send(msgHV,ZMQ_SNDMORE);
-	sock->send(msgLVstate,ZMQ_SNDMORE);
-	sock->send(msgFT,ZMQ_SNDMORE);
-	sock->send(msgFH,ZMQ_SNDMORE);
-	sock->send(msgFTT,ZMQ_SNDMORE);
-	sock->send(msgFS,ZMQ_SNDMORE);
-	sock->send(msgR1,ZMQ_SNDMORE);
-	sock->send(msgR2,ZMQ_SNDMORE);
-	sock->send(msgR3,ZMQ_SNDMORE);
-	sock->send(msgTrig0,ZMQ_SNDMORE);
-	sock->send(msgTrig1,ZMQ_SNDMORE);
-	sock->send(msgV33,ZMQ_SNDMORE);
-	sock->send(msgV25,ZMQ_SNDMORE);
-	sock->send(msgV12,ZMQ_SNDMORE);
-	sock->send(msgP,ZMQ_SNDMORE);
-	sock->send(msgSalt,ZMQ_SNDMORE);
-	sock->send(msgES,ZMQ_SNDMORE);
-	//sock->send(msgE);
-	sock->send(msgE,ZMQ_SNDMORE);
-    
-	Send_Config(sock);
+    bool send_ok = true;
+	if(send_ok) send_ok &= sock->send(msg0,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgV,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTime,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgHum,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTemp1,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTemp2,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgHVstate,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgHV,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLVstate,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgFT,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgFH,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgFTT,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgFS,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR1,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR2,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR3,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTrig0,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTrig1,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgV33,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgV25,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgV12,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgP,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgSalt,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgES,ZMQ_SNDMORE);
+    if(S_errorcodes>0)
+    {
+	    if(send_ok) send_ok &= sock->send(msgE,ZMQ_SNDMORE);
+    }
+
+	send_ok = Send_Config(sock);
 	
-  	return true;
+  	return send_ok;
 }
 
 bool SlowControlMonitor::Receive_Mon(zmq::socket_t* sock){
@@ -158,15 +156,10 @@ bool SlowControlMonitor::Receive_Mon(zmq::socket_t* sock){
 		//return false;
 	}
 
-	//LAPPD_ID
-	//sock->recv(&msg);   
-	//LAPPD_ID=*(reinterpret_cast<unsigned int*>(msg.data()));
-
 	//Timestamp
 	sock->recv(&msg);   
 	std::stringstream iss(static_cast<char*>(msg.data()));
 	iss >> timeSinceEpochMilliseconds;   
-	//timeSinceEpochMilliseconds=*(reinterpret_cast<char*>(msg.data()));
 
 	//Temperature/Humidity
 	sock->recv(&msg);   
@@ -300,28 +293,29 @@ bool SlowControlMonitor::Send_Config(zmq::socket_t* sock){
 	zmq::message_t msgR3(sizeof relayCh3);
 	std::memcpy(msgR3.data(), &relayCh3, sizeof relayCh3);
 
-	sock->send(msgV,ZMQ_SNDMORE);
-	sock->send(msgR,ZMQ_SNDMORE);
-    sock->send(msgID,ZMQ_SNDMORE);
-	sock->send(msgHVstate,ZMQ_SNDMORE);
-	sock->send(msgHV,ZMQ_SNDMORE);
-	sock->send(msgLV,ZMQ_SNDMORE);
-	sock->send(msgLTL,ZMQ_SNDMORE);
-	sock->send(msgLTH,ZMQ_SNDMORE);
-	sock->send(msgLHL,ZMQ_SNDMORE);
-	sock->send(msgLHH,ZMQ_SNDMORE);
-	sock->send(msgLTTL,ZMQ_SNDMORE);
-	sock->send(msgLTTH,ZMQ_SNDMORE);
-	sock->send(msgLSL,ZMQ_SNDMORE);
-	sock->send(msgLSH,ZMQ_SNDMORE);
-	sock->send(msgTrig0,ZMQ_SNDMORE);
-	sock->send(msgTrig1,ZMQ_SNDMORE);
-	sock->send(msgTrigRef,ZMQ_SNDMORE);
-	sock->send(msgR1,ZMQ_SNDMORE);
-	sock->send(msgR2,ZMQ_SNDMORE);
-	sock->send(msgR3);
+    bool send_ok = true;
+	if(send_ok) send_ok &= sock->send(msgV,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR,ZMQ_SNDMORE);
+    if(send_ok) send_ok &= sock->send(msgID,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgHVstate,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgHV,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLV,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLTL,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLTH,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLHL,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLHH,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLTTL,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLTTH,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLSL,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgLSH,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTrig0,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTrig1,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgTrigRef,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR1,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR2,ZMQ_SNDMORE);
+	if(send_ok) send_ok &= sock->send(msgR3);
 
-	return true;
+	return send_ok;
 }
 
 bool SlowControlMonitor::Receive_Config(zmq::socket_t* sock){
