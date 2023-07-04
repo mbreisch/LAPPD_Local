@@ -431,9 +431,14 @@ std::vector<unsigned short> ACC_SaveData::GetParsedMetaData(int boardID, std::ve
 }
 
 
+bool folderExists(const std::string& folderPath) 
+{
+    struct stat buffer;
+    return (stat(folderPath.c_str(), &buffer) == 0 && S_ISDIR(buffer.st_mode));
+}
+
 void ACC_SaveData::CreateFolder()
 {
-    namespace fs = std::filesystem;
     std::cout<<"Creating Results"<<std::endl;
     int ret = system("mkdir -p Results");
     int subindex = 0;
@@ -441,7 +446,7 @@ void ACC_SaveData::CreateFolder()
     {
         std::string subfolder = "R"+std::to_string(subindex)+"_"+starttime;
         std::string folderPath = Path+"/"+subfolder+"/";
-        if(fs::exists(folderPath) && fs::is_directory(folderPath)) 
+        if(folderExists(folderPath)) 
         {
             subindex++;
         }else
