@@ -10,3 +10,4 @@ main
 *.d
 *.root
 .vscode/settings.json
+Makefile

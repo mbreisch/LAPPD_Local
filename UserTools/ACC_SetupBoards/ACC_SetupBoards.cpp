@@ -16,7 +16,7 @@ bool ACC_SetupBoards::Initialise(std::string configfile, DataModel &data){
 	
 	//m_variables.Print();
 	
-	//if(m_data->acc==nullptr) m_data->acc = new ACC();
+	if(m_data->acc==nullptr) m_data->acc = new ACC();
 	
 	TimeoutResetCount = 300;
 	PPSWaitMultiplier = 10;
