@@ -16,7 +16,7 @@ endif
 ZMQLib= -L $(Dependencies)/zeromq-4.0.7/lib -lzmq 
 ZMQInclude= -I $(Dependencies)/zeromq-4.0.7/include/ 
 
-YOCTOLib = -L $(Dependencies)/YOCTO/Binaries/linux/armhf -lyocto -lm -lpthread
+YOCTOLib = -L $(Dependencies)/YOCTO/Binaries/linux/64bits -lyocto -lm -lpthread
 YOCTOInclude = -I $(Dependencies)/YOCTO/Sources
 
 
@@ -36,7 +36,6 @@ MyToolsInclude = $(PostgresInclude)
 MyToolsLib =
 #$(PostgresLib) -L lib -lCC -lL3 -lL4 -lm -lxx_usb -lcurl  
 #-L ToolDAQ/curl-7.65.3/install/lib/ -lcurl 
-
 
 
 debug: all

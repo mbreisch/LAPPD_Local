@@ -52,6 +52,7 @@ void ACC_Evaluate::Print_ACC_IF(std::vector<unsigned short> accif)
 
 void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
 {
+    if(accif.size()==0){return;}
     unsigned short word14 = accif.at(14);
 
     int bit0 = word14 & (1<<Port_0);
