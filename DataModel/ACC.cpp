@@ -579,6 +579,7 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 		}
 
 		//go through all boards on the acc info frame and if 7795 words were transfered note that board
+        bool endline = false;
 		for(int k: LAPPD_on_ACC)
 		{
 			if(lastAccBuffer.at(14) & (1 << k))
@@ -595,12 +596,13 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
                 {
                     unsigned int bit = lastAccBuffer.at(14) & (1 << k);
                     std::cout << bit << " - " << lastAccBuffer.at(16+k) << " | "; 
+                    endline = true;
                     //unsigned int dumpIndex = 0x00 | (1<<LAPPD_on_ACC[0]) | (1<<LAPPD_on_ACC[1]);
                    // dumpData(dumpIndex);
                 }
 			}
 		}
-        std::cout<<std::endl;
+        if(endline){std::cout<<std::endl;}
 
 		//old trigger
 		if(boardsReadyForRead==LAPPD_on_ACC)
