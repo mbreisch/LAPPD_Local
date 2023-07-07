@@ -93,6 +93,7 @@ bool ACC_DataRead::Execute()
             m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
             m_data->data.ReceiveData = m_data->acc->returnRaw();
             m_data->data.BoardIndex = m_data->acc->returnBoardIndices();
+            m_data->data.RawWaveform = m_data->data.ReceiveData;
             m_data->acc->clearData();
             if(m_verbose>2){m_data->data.Print();}
         }                
