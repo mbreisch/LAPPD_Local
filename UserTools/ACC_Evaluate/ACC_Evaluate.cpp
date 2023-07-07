@@ -30,8 +30,6 @@ bool ACC_Evaluate::Execute()
     if(m_verbose>2){Print_ACC_IF(ACC_IF);}
     Print_Buffer_Debug(ACC_IF);
 
-    m_data->data.errorcodes.clear();
-
     return true;
 }
 
@@ -64,6 +62,4 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     int buffer1 = accif.at(16+Port_1);
 
     printf(">>>> %i - %i | %i - %i\n",bit0,buffer0,bit1,buffer1);
-
-    m_data->data.AccInfoFrame.clear();
 }
