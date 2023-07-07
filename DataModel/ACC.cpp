@@ -593,12 +593,15 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 					readoutSize[k] = PPSFRAME;
 				}else
                 {
-                    unsigned int bit0 = lastAccBuffer.at(14) & (1 << LAPPD_on_ACC[0]);
-                    unsigned int bit1 = lastAccBuffer.at(14) & (1 << LAPPD_on_ACC[1]);
-                    std::cout << bit0 << " - " << lastAccBuffer.at(16+LAPPD_on_ACC[0]) << " | " << bit1 << " - " << lastAccBuffer.at(16+LAPPD_on_ACC[1]) << std::endl;
-                    unsigned int dumpIndex = 0x00 | (1<<LAPPD_on_ACC[0]) | (1<<LAPPD_on_ACC[1]);
-                    dumpData(dumpIndex);
-                    emptyUsbLine();
+                    if((lastAccBuffer.at(14) & (1 << LAPPD_on_ACC[0])) && (lastAccBuffer.at(14) & (1 << LAPPD_on_ACC[1])))
+                    {
+                        unsigned int bit0 = lastAccBuffer.at(14) & (1 << LAPPD_on_ACC[0]);
+                        unsigned int bit1 = lastAccBuffer.at(14) & (1 << LAPPD_on_ACC[1]);
+                        std::cout << bit0 << " - " << lastAccBuffer.at(16+LAPPD_on_ACC[0]) << " | " << bit1 << " - " << lastAccBuffer.at(16+LAPPD_on_ACC[1]) << std::endl;
+                        unsigned int dumpIndex = 0x00 | (1<<LAPPD_on_ACC[0]) | (1<<LAPPD_on_ACC[1]);
+                        dumpData(dumpIndex);
+                        emptyUsbLine();
+                    }
                 }
 			}
 		}
