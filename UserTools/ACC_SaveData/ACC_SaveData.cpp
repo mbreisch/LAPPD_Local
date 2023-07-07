@@ -68,6 +68,14 @@ bool ACC_SaveData::Execute()
         {
             if(m_verbose>2){std::cout << "Got error, will skip parsing" << std::endl;}
         }
+        m_data->data.AccInfoFrame.clear();
+        m_data->data.BoardIndex.clear();
+        m_data->data.ReceiveData.clear();
+        m_data->data.RawWaveform.clear();
+
+        //PrintErrors();
+
+        m_data->data.errorcodes.clear();
         return true;
     }else
     {
@@ -109,7 +117,7 @@ bool ACC_SaveData::Execute()
 	m_data->data.ReceiveData.clear();
     m_data->data.RawWaveform.clear();
 
-    PrintErrors();
+    //PrintErrors();
 
     m_data->data.errorcodes.clear();
 

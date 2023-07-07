@@ -30,6 +30,8 @@ bool ACC_Evaluate::Execute()
     if(m_verbose>2){Print_ACC_IF(ACC_IF);}
     Print_Buffer_Debug(ACC_IF);
 
+    m_data->data.errorcodes.clear();
+
     return true;
 }
 

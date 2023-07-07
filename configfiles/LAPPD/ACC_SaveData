@@ -3,7 +3,7 @@
 #1 = Save to ASCII
 #2 = Save to Bianrydata -> Store
 #3 = Save to Raw
-SaveMode 1
+SaveMode 0
 
 #How many events should be recorded
 MaxNumberEvents 1000
@@ -17,4 +17,6 @@ PrintLinesMax 50000
 
 #Store labels
 StoreLabel LAPPDData
+
+verbose 1
 
