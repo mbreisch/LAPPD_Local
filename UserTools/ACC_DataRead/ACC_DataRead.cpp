@@ -88,14 +88,14 @@ bool ACC_DataRead::Execute()
             m_data->data.ReceiveData.clear();
             m_data->acc->clearData();
         }else{
-            if(m_verbose>2){printf("good data\n");}
+            if(m_verbose>3){printf("good data\n");}
             m_data->TCS.Timeoutcounter.at(LAPPD_ID) = 0;
             m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
             m_data->data.ReceiveData = m_data->acc->returnRaw();
             m_data->data.BoardIndex = m_data->acc->returnBoardIndices();
             m_data->data.RawWaveform = m_data->data.ReceiveData;
             m_data->acc->clearData();
-            if(m_verbose>2){m_data->data.Print();}
+            if(m_verbose>3){m_data->data.Print();}
         }                
     }catch(std::exception& e)
     {
