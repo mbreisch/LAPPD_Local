@@ -59,9 +59,10 @@ bool ACC_DataRead::Execute()
                 unsigned int dumpIndex = 0x00 | (1<<LAPPD_on_ACC[0]) | (1<<LAPPD_on_ACC[1]);
                 m_data->acc->dumpData(dumpIndex);
                 m_data->acc->emptyUsbLine();
+                m_data->acc->clearData();
             }else
             {
-                if(m_verbose>2){printf("404\n");}
+                if(m_verbose>3){printf("404\n");}
                 /*
                 vector<unsigned short> TMP_ACC = m_data->acc->returnACCIF();
                 if(PreviousBuffer[Port_0]==0 && PreviousBuffer[Port_1]==0)

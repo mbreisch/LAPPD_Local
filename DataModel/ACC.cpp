@@ -584,7 +584,6 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 			if(lastAccBuffer.at(14) & (1 << k))
 			{
                 unsigned int bit = lastAccBuffer.at(14) & (1 << k);
-                std::cout << k << ": " << bit << " - " << lastAccBuffer.at(16+k) << std::endl;
 				if(lastAccBuffer.at(16+k)==PSECFRAME)
 				{
 					boardsReadyForRead.push_back(k);
