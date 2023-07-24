@@ -595,7 +595,7 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 					readoutSize[k] = PPSFRAME;
 				}else
                 {
-                    errorcode.push_back(0xAC15EE07)
+                    errorcode.push_back(0xAC15EE07);
                     return 408;
                 }
 			}
