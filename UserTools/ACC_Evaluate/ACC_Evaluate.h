@@ -41,7 +41,7 @@ class ACC_Evaluate: public Tool {
     void Print_ACC_IF(std::vector<unsigned short> accif);
     void Print_Buffer_Debug(std::vector<unsigned short> accif);
 
-    ifstream logfile;
+    ofstream logfile;
     int loglength;
 
     int GetFileLength();
