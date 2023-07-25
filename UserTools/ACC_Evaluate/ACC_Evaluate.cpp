@@ -41,9 +41,7 @@ bool ACC_Evaluate::Execute()
 bool ACC_Evaluate::Finalise()
 {
     logfile.close();
-    delete logfile;
-
-  return true;
+    return true;
 }
 
 

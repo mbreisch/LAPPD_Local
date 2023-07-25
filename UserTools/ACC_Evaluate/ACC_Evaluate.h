@@ -43,6 +43,8 @@ class ACC_Evaluate: public Tool {
     ifstream logfile;
     int loglength;
 
+    int GetFileLength();
+
 
 };
 
