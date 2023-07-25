@@ -69,7 +69,7 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
 
     if(GetFileLength()<loglength)
     {
-        logfile << m_data->data.Timestamp.c_str()<<": "<<bit0<<" - "<<buffer0<<" | "<<bit1<<" - "<<buffer1<<endl;
+        logfile << m_data->data.Timestamp <<": "<<bit0<<" - "<<buffer0<<" | "<<bit1<<" - "<<buffer1<<endl;
     } 
 }
 
