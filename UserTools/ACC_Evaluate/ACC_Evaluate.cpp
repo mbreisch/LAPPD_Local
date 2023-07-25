@@ -75,7 +75,7 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
 }
 
 
-int ACC_Evaluate::ACC_GetFileLength()
+int ACC_Evaluate::GetFileLength()
 {
     std::string filename = "./RunLog"; 
 
