@@ -85,7 +85,6 @@ bool ACC_DataRead::Execute()
                 }
                 TMP_ACC.clear();
                 */
-                m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
                 m_data->TCS.Timeoutcounter.at(LAPPD_ID) = m_data->TCS.Timeoutcounter.at(LAPPD_ID) + 1;
             }
             m_data->data.ReceiveData.clear();
