@@ -107,7 +107,7 @@ bool ACC_DataRead::Execute()
     //Get Timestamp
     unsigned long long timeSinceEpoch = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     m_data->data.Timestamp = to_string(timeSinceEpoch);
-    printf("%s\n",to_string(timeSinceEpoch));
+
     try
     {
         //Get errors
