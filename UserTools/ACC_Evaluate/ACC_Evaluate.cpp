@@ -19,6 +19,10 @@ bool ACC_Evaluate::Initialise(std::string configfile, DataModel &data)
 	m_variables.Get("Port_1",Port_1);
 	LAPPD_on_ACC = {Port_0,Port_1};
 
+    logfile.open("./RunLog",ios_base::app);
+
+    loglength = 50000;
+
     return true;
 }
 
@@ -36,6 +40,8 @@ bool ACC_Evaluate::Execute()
 
 bool ACC_Evaluate::Finalise()
 {
+    logfile.close();
+    delete logfile;
 
   return true;
 }
@@ -62,4 +68,32 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     int buffer1 = accif.at(16+Port_1);
 
     printf(">>>> %s: %i - %i | %i - %i\n",m_data->data.Timestamp.c_str(),bit0,buffer0,bit1,buffer1);
+
+    if(GetFileLength()<loglength)
+    {
+        logfile << m_data->data.Timestamp.c_str()<<": "<<bit0<<" - "<<buffer0<<" | "<<bit1<<" - "<<buffer1<<endl;
+    } 
+}
+
+
+int ACC_GetFileLength()
+{
+    std::string filename = "./RunLog"; 
+
+    std::ifstream file(filename);
+    if(!file) 
+    {
+        std::cerr << "Error opening file: " << filename << std::endl;
+        return 1;
+    }
+
+    int lineCount = 0;
+    std::string line;
+    while(std::getline(file, line)) 
+    {
+        lineCount++;
+    }
+    
+    file.close();
+    return lineCount;
 }
