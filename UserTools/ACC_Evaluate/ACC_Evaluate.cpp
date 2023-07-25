@@ -65,7 +65,7 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     int buffer0 = accif.at(16+Port_0);
     int buffer1 = accif.at(16+Port_1);
 
-    printf(">>>> %s: %i - %i | %i - %i\n",m_data->data.Timestamp.c_str(),bit0,buffer0,bit1,buffer1);
+    //printf(">>>> %s: %i - %i | %i - %i\n",m_data->data.Timestamp.c_str(),bit0,buffer0,bit1,buffer1);
 
     if(GetFileLength()<loglength)
     {

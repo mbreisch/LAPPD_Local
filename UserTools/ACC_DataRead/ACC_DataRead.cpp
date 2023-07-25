@@ -59,6 +59,7 @@ bool ACC_DataRead::Execute()
                 unsigned int dumpIndex = 0x00 | (1<<LAPPD_on_ACC[0]) | (1<<LAPPD_on_ACC[1]);
                 m_data->acc->dumpData(dumpIndex);
                 m_data->acc->emptyUsbLine();
+                m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
                 m_data->acc->clearData();
             }else
             {
@@ -84,6 +85,7 @@ bool ACC_DataRead::Execute()
                 }
                 TMP_ACC.clear();
                 */
+                m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
                 m_data->TCS.Timeoutcounter.at(LAPPD_ID) = m_data->TCS.Timeoutcounter.at(LAPPD_ID) + 1;
             }
             m_data->data.ReceiveData.clear();
