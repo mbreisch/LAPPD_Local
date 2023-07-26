@@ -163,7 +163,7 @@ bool ACC_SetupBoards::Setup()
 
 	m_data->acc->setPPSBeamMultiplexer(m_data->config.PPSBeamMultiplexer);
 
-    if(m_data->config.PPSRatio==0 || m_data->acc->setPPSBeamMultiplexer==0)
+    if(m_data->config.PPSRatio==0 || m_data->config.PPSBeamMultiplexer==0)
     {
         TimeoutResetCount = -1;
     }
