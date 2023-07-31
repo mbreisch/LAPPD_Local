@@ -595,8 +595,8 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 				}else
                 {
                     std::cout<<"I broke down"<<std::endl;
-                    errorcode.push_back(0xAC15EE07);
-                    return 408;
+                    //errorcode.push_back(0xAC15EE07);
+                    //return 408;
                 }
 			}
 		}
