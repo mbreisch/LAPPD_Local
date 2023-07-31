@@ -27,7 +27,10 @@ bool ACC_SaveData::Initialise(std::string configfile, DataModel &data)
     channel_count = 0;
     starttime = getTime();
 
-    CreateFolder();
+    if(SaveMode!=0)
+    {
+        CreateFolder();
+    }
 
     if(SaveMode==1)
     {

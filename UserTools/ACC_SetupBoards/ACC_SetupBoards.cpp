@@ -31,7 +31,7 @@ bool ACC_SetupBoards::Execute()
 	bool StartReset = false;
 	for(std::map<int, int>::iterator it=m_data->TCS.Timeoutcounter.begin(); it!=m_data->TCS.Timeoutcounter.end(); ++it)
 	{
-        if(it->second>TimeoutResetCount && TimeoutResetCount!=-1)
+        if(it->second>TimeoutResetCount)
         {
 			std::cout << "Timeout of " << it->first << " with " << it->second << " against " << TimeoutResetCount << std::endl;
 			StartReset = true;
@@ -165,7 +165,7 @@ bool ACC_SetupBoards::Setup()
 
     if(m_data->config.PPSRatio==0 || m_data->config.PPSBeamMultiplexer==0)
     {
-        TimeoutResetCount = -1;
+        TimeoutResetCount = 100;
     }
 
     //SMA debug settigns
