@@ -40,6 +40,7 @@ bool ACC_SetupBoards::Execute()
 
 	if(StartReset==true)
 	{
+        std::cout<< "Reset was called! And Reset will answer!" << std::endl;
         m_data->config.receiveFlag = 1; //Re-init the Setup part uf the tool
 
         //
@@ -63,6 +64,7 @@ bool ACC_SetupBoards::Execute()
 	bool setupret = false;
 	if(m_data->config.receiveFlag==1)
 	{
+        std::cout << "Setup will start now ... " << std::endl;
 		if(m_data->config.RunControl==0 || m_data->config.RunControl==1)
 		{
 			m_data->data.errorcodes.clear();

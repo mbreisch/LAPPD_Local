@@ -6,7 +6,7 @@
 SaveMode 0
 
 #How many events should be recorded
-MaxNumberEvents 1000
+MaxNumberEvents 100
 
 #General path variable
 Path ./Results/

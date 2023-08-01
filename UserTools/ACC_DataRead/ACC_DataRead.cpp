@@ -38,6 +38,7 @@ bool ACC_DataRead::Execute()
         m_data->data.LAPPD_ID = LAPPD_ID;
         if(m_data->config.triggermode==1)
         {
+            std::cout << "Software trigger firing ---->" << std::endl;
             m_data->acc->softwareTrigger();
         }
         m_data->data.readRetval = m_data->acc->listenForAcdcData(m_data->config.triggermode,LAPPD_on_ACC);

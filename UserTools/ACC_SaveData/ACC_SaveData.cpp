@@ -58,7 +58,8 @@ bool ACC_SaveData::Execute()
 
     if(m_data->TCS.EventCounter>=MaxNumberEvents)
     {
-        m_variables.Set("StopLoop",1);
+        std::cout << "Max Events reached! Ending now!" << std::endl;
+        m_data->vars.Set("StopLoop",1);
         return true;
     }
 
