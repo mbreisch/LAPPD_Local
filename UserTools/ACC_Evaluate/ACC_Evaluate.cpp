@@ -65,12 +65,22 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     int buffer0 = accif.at(16+Port_0);
     int buffer1 = accif.at(16+Port_1);
 
-    //printf(">>>> %s: %i - %i | %i - %i\n",m_data->data.Timestamp.c_str(),bit0,buffer0,bit1,buffer1);
+    vector<unsigned short> TmpVector = m_data->data.RawWaveform;
+
+    unsigned short pps_c1 = TmpVector.at(9);
+    unsigned short pps_c2 = TmpVector.at(8);
+
+    stringstream ss_cPPS;
+    ss_cPPS << std::setfill('0') << std::setw(4) << std::hex << pps_c2;
+    ss_cPPS << std::setfill('0') << std::setw(4) << std::hex << pps_c1;
+    unsigned long long PPS_Counter = std::stoull(ss_cPPS.str(),nullptr,16);
+
+    printf(">>>> %s: %i - %i | %i - %i with ID: %ll\n",m_data->data.Timestamp.c_str(),bit0,buffer0,bit1,buffer1,PPS_Counter);
 
     if(GetFileLength()<loglength)
     {
         std::string time = m_data->data.Timestamp.c_str();
-        logfile << time <<": "<<bit0<<" - "<<buffer0<<" | "<<bit1<<" - "<<buffer1<<endl;
+        logfile << time <<": "<<bit0<<" - "<<buffer0<<" | "<<bit1<<" - "<<buffer1<<" with: "<<PPS_Counter<<endl;
     } 
 }
 
