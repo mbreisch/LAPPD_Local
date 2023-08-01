@@ -1,5 +1,5 @@
 ACC_Receive ACC_Receive configfiles/LAPPD/ACC_Receive
 ACC_SetupBoards ACC_SetupBoards configfiles/LAPPD/ACC_SetupBoards
 ACC_DataRead ACC_DataRead configfiles/LAPPD/ACC_DataRead
-#ACC_Evaluate ACC_Evaluate configfiles/LAPPD/ACC_DataRead #only used for debugging
+#ACC_Evaluate ACC_Evaluate configfiles/LAPPD/ACC_Evaluate #only used for debugging
 ACC_SaveData ACC_SaveData configfiles/LAPPD/ACC_SaveData

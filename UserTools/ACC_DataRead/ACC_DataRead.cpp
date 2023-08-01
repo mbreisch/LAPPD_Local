@@ -52,7 +52,7 @@ bool ACC_DataRead::Execute()
         {
             if(m_data->data.readRetval != 404)
             {
-                if(m_verbose>2){printf("not 404 but %i\n",m_data->data.readRetval);}
+                if(m_verbose>1){printf("not 404 but %i\n",m_data->data.readRetval);}
                 m_data->TCS.Timeoutcounter.at(LAPPD_ID) = 0;
                 m_data->data.FailedReadCounter = m_data->data.FailedReadCounter + 1;
                 m_data->data.errorcodes.push_back(0xAD02EE01);
@@ -63,7 +63,7 @@ bool ACC_DataRead::Execute()
                 m_data->acc->clearData();
             }else
             {
-                if(m_verbose>3){printf("404\n");}
+                if(m_verbose>2){printf("404\n");}
                 /*
                 vector<unsigned short> TMP_ACC = m_data->acc->returnACCIF();
                 if(PreviousBuffer[Port_0]==0 && PreviousBuffer[Port_1]==0)
