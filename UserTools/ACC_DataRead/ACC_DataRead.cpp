@@ -53,6 +53,7 @@ bool ACC_DataRead::Execute()
             if(m_data->data.readRetval != 404)
             {
                 if(m_verbose>1){printf("not 404 but %i\n",m_data->data.readRetval);}
+                if(m_data->data.readRetval==405){m_variables.Set("StopLoop",1);}
                 m_data->TCS.Timeoutcounter.at(LAPPD_ID) = 0;
                 m_data->data.FailedReadCounter = m_data->data.FailedReadCounter + 1;
                 m_data->data.errorcodes.push_back(0xAD02EE01);
