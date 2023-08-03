@@ -610,13 +610,7 @@ int ACC::listenForAcdcData(int trigMode, vector<int> LAPPD_on_ACC)
 	}
 
     //check for mixed buffersizes
-    bool chk=true;
-    int first = readoutSize.begin()->second;
-    for(map<int,int>::iterator it=readoutSize.begin(); it!=readoutSize.end(); it++)
-    {
-        if(it->second!=first){chk=false;}
-    }
-    if(chk==false)
+    if(readoutSize[LAPPD_on_ACC[0]]!=readoutSize[LAPPD_on_ACC[1]])
     {
         errorcode.push_back(0xAC15EE06);
         return 407;       

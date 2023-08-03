@@ -30,6 +30,7 @@ bool ACC_Evaluate::Initialise(std::string configfile, DataModel &data)
 bool ACC_Evaluate::Execute()
 {
     std::vector<unsigned short> ACC_IF = m_data->data.AccInfoFrame;
+    if(ACC_IF.size()==0){return true;}
 
     if(m_verbose>4){Print_ACC_IF(ACC_IF);}
     if(m_verbose>1){Print_Buffer_Debug(ACC_IF);}
