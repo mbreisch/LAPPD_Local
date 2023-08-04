@@ -78,7 +78,7 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     catch(const std::exception& e)
     {
         std::cerr << "Error at PPS call for counter: " << e.what() << '\n';
-        for(auto k: accif){cout<<k<<endl;}
+        for(auto k: TmpVector){cout<<k<<endl;}
     }
     
     stringstream ss_cPPS;
