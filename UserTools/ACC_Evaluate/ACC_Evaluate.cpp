@@ -67,6 +67,7 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     int buffer1 = accif.at(16+Port_1);
 
     vector<unsigned short> TmpVector = m_data->data.RawWaveform;
+    if(TmpVector.size()==0){return;}
 
     unsigned short pps_c1;
     unsigned short pps_c2;
@@ -78,7 +79,6 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
     catch(const std::exception& e)
     {
         std::cerr << "Error at PPS call for counter: " << e.what() << '\n';
-        for(auto k: TmpVector){cout<<k<<endl;}
     }
     
     stringstream ss_cPPS;
