@@ -68,8 +68,17 @@ void ACC_Evaluate::Print_Buffer_Debug(std::vector<unsigned short> accif)
 
     vector<unsigned short> TmpVector = m_data->data.RawWaveform;
 
-    unsigned short pps_c1 = TmpVector.at(9);
-    unsigned short pps_c2 = TmpVector.at(8);
+    try
+    {
+        unsigned short pps_c1 = TmpVector.at(9);
+        unsigned short pps_c2 = TmpVector.at(8);  
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << "Error at PPS call for counter: " << e.what() << '\n';
+    }
+    
+
 
     stringstream ss_cPPS;
     ss_cPPS << std::setfill('0') << std::setw(4) << std::hex << pps_c2;

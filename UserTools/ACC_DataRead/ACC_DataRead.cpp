@@ -62,7 +62,6 @@ bool ACC_DataRead::Execute()
                 m_data->acc->dumpData(dumpIndex);
                 m_data->acc->emptyUsbLine();
                 m_data->data.AccInfoFrame = m_data->acc->returnACCIF();
-                m_data->acc->clearData();
             }else
             {
                 if(m_verbose>2){printf("404\n");}
